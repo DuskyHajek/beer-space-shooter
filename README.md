@@ -4,9 +4,7 @@ A fun arcade-style space shooter game with a beer theme! Shoot down various beer
 
 ## Play the Game
 
-You can play the game online at: [https://YOUR-USERNAME.github.io/beer-space-shooter](https://YOUR-USERNAME.github.io/beer-space-shooter)
-
-(Replace YOUR-USERNAME with your actual GitHub username once deployed)
+You can play the game online at: [https://DuskyHajek.github.io/beer-space-shooter](https://DuskyHajek.github.io/beer-space-shooter)
 
 ## Game Features
 
@@ -33,6 +31,6 @@ You can play the game online at: [https://YOUR-USERNAME.github.io/beer-space-sho
 
 ## Credits
 
-Created by [Your Name]
+Created by Dusky Hajek
 
 Enjoy the game and remember to drink responsibly! 🍺 
