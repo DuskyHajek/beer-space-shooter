@@ -1453,7 +1453,7 @@ function drawBackground() {
     fill(40, 20, 10);
     textSize(24);
     textAlign(CENTER);
-    text("PlanB", width/2, 32);
+    text("duskyAI", width/2, 32);
     
     // Reset drawing settings
     noStroke();
