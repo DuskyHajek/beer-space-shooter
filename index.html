@@ -3,349 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>duskyAI | Exploring the Future</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Beer Space Shooter</title>
     <style>
-        /* Checkmark animation for form success */
-        .checkmark {
-            width: 56px;
-            height: 56px;
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        #canvas-container {
+            display: inline-block;
             margin-bottom: 20px;
         }
-        .checkmark-circle {
-            stroke-dasharray: 166;
-            stroke-dashoffset: 166;
-            stroke-width: 2;
-            stroke-miterlimit: 10;
-            stroke: var(--primary-color);
-            fill: none;
-            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
-        }
-        .checkmark-check {
-            transform-origin: 50% 50%;
-            stroke-dasharray: 48;
-            stroke-dashoffset: 48;
-            stroke-width: 3;
-            stroke: var(--primary-color);
-            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
-        }
-        @keyframes stroke {
-            100% { stroke-dashoffset: 0; }
-        }
-        .success-message {
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            opacity: 0;
-            animation: fadeIn 0.5s ease-out forwards 0.5s;
-        }
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-        .action-btn {
-            background: rgba(0, 255, 255, 0.1);
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
-            padding: 8px 16px;
-            border-radius: 4px;
-            margin: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .action-btn:hover {
-            background: rgba(0, 255, 255, 0.2);
-            box-shadow: var(--glow-small);
-            transform: translateY(-2px);
-        }
-        .project-actions {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .tech-tag {
-            display: inline-block;
-            background: rgba(0, 255, 255, 0.1);
-            border: 1px solid var(--primary-color);
-            color: var(--text-light);
-            padding: 5px 12px;
-            border-radius: 20px;
-            margin: 5px;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
-        }
-        .tech-tag:hover {
-            background: rgba(0, 255, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: var(--glow-small);
-        }
-        .tech-tags {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+        .info {
             margin-top: 10px;
+            text-align: center;
         }
-        
-        /* Scroll Indicator */
-        .scroll-indicator {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
+        a {
+            color: #ffcc00;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .leaderboard {
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 2px solid #ffcc00;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+            width: 300px;
+        }
+        .leaderboard h3 {
+            color: #ffcc00;
+            text-align: center;
+            margin-top: 0;
+        }
+        .leaderboard-entry {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+        .nickname-input {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 1px solid #ffcc00;
+            color: white;
+            padding: 5px;
+            margin-top: 10px;
+            width: 200px;
+            text-align: center;
+        }
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
             align-items: center;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
+            z-index: 1000;
         }
-        
-        .scroll-indicator:hover {
-            opacity: 1;
-        }
-        
-        .scroll-text {
-            color: var(--primary-color);
-            font-size: 0.8rem;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 300;
-        }
-        
-        .scroll-arrow {
-            width: 30px;
-            height: 50px;
-            border: 2px solid var(--primary-color);
-            border-radius: 15px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--glow-small);
-        }
-        
-        .scroll-arrow::before {
-            content: '';
-            position: absolute;
-            top: 8px;
-            left: 50%;
-            width: 6px;
-            height: 6px;
-            background: var(--primary-color);
-            border-radius: 50%;
-            transform: translateX(-50%);
-            animation: scrollDown 2s infinite;
-            box-shadow: var(--glow-small);
-        }
-        
-        @keyframes scrollDown {
-            0% { top: 8px; opacity: 1; }
-            80% { opacity: 0; }
-            100% { top: 32px; opacity: 0; }
+        #loading p {
+            color: #ffcc00;
+            font-size: 24px;
         }
     </style>
+    <script>
+        // Add error handling for the entire page
+        window.onerror = function(message, source, lineno, colno, error) {
+            console.error("Error occurred: ", message, "at", source, ":", lineno);
+            // Don't show alert for script errors from external resources
+            if (message !== "Script error.") {
+                alert("An error occurred: " + message);
+            }
+            return true;
+        };
+        
+        // Log when the page is fully loaded
+        window.onload = function() {
+            console.log("Page fully loaded");
+            // Hide loading screen if it exists
+            const loadingScreen = document.getElementById('loading');
+            if (loadingScreen) {
+                loadingScreen.style.display = 'none';
+            }
+        };
+    </script>
 </head>
 <body>
-    <div class="cursor-follower"></div>
+    <!-- Loading screen -->
+    <div id="loading">
+        <p>Loading Beer Space Shooter...</p>
+    </div>
     
-    <div class="page-container">
-        <nav class="main-nav">
-            <div class="nav-logo">
-                <span class="logo-text">dusky<span class="logo-highlight">AI</span></span>
-                <div class="logo-glow"></div>
-            </div>
-            <div class="nav-links">
-                <div class="nav-link" data-section="hero">Home</div>
-                <div class="nav-link" data-section="about">About</div>
-                <div class="nav-link" data-section="portfolio">Projects</div>
-                <div class="nav-link" data-section="timeline">Timeline</div>
-                <div class="nav-link" data-section="contact">Contact</div>
-                <div class="nav-progress">
-                    <div class="nav-progress-bar"></div>
-                </div>
-            </div>
-            <div class="nav-toggle">
-                <div class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-        </nav>
-
-        <div class="fullscreen-menu">
-            <div class="menu-items">
-                <div class="menu-item" data-section="hero">Home</div>
-                <div class="menu-item" data-section="about">About</div>
-                <div class="menu-item" data-section="portfolio">Projects</div>
-                <div class="menu-item" data-section="timeline">Timeline</div>
-                <div class="menu-item" data-section="contact">Contact</div>
-            </div>
-        </div>
-
-        <main class="content">
-            <section id="hero" class="active">
-                <canvas id="particles" class="particles-canvas"></canvas>
-                <div class="hero-content">
-                    <h1 class="glitch" data-text="duskyAI">duskyAI</h1>
-                    <p class="typewriter">Probing the frontiers of synthetic cognition</p>
-                    <div class="cta-container">
-                        <button class="cta-button" data-section="about">Lights, camera, action!
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <section id="about">
-                <canvas id="particles-about" class="particles-canvas"></canvas>
-                <div class="section-content">
-                    <div class="profile-card">
-                        <div class="profile-image">
-                            <img src="photo.jpg" alt="Your Photo">
-                        </div>
-                        <div class="profile-info">
-                            <h2>About Me</h2>
-                            <p>Hi, I'm <span class="highlight">Dusan Hajek</span>, an AI enthusiast and creative technologist pushing the boundaries of what's possible.</p>
-                            <p>My endeavors delve into the convergence of computational intelligence, human ingenuity, and forthcoming technological paradigms.</p>
-                            <div class="skills">
-                                <span class="skill-tag">AI Research</span>
-                                <span class="skill-tag">Prompt Engineering</span>
-                                <span class="skill-tag">Vibe Coding</span>
-                                <span class="skill-tag">Data Visualization</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="portfolio">
-                <canvas id="particles-portfolio" class="particles-canvas"></canvas>
-                <div class="section-content">
-                    <h2>Featured Projects</h2>
-                    <div class="portfolio-showcase">
-                        <div class="project-card" data-project="1" data-url="https://duskyhajek.github.io/pexeso_ai/">
-                            <div class="project-preview">
-                                <img src="project1.png" alt="AI Project 1">
-                                <div class="project-overlay">
-                                    <h3>AI Pexeso Game</h3>
-                                    <p>A fun, interactive memory matching game for children, vibecoding with AI</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="project-card" data-project="2" data-url="https://duskyhajek.github.io/bitcoin_price/">
-                            <div class="project-preview">
-                                <img src="project2.png" alt="AI Project 2">
-                                <div class="project-overlay">
-                                    <h3>Bitcoin Price Tracker</h3>
-                                    <p>Web application displaying real-time Bitcoin price, vibecoding with AI</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="project-card" data-project="3" data-url="https://duskyhajek.github.io/beer-space-shooter/">
-                            <div class="project-preview">
-                                <img src="project3.png" alt="AI Project 3">
-                                <div class="project-overlay">
-                                    <h3>Beer Shooter</h3>
-                                    <p>A fun arcade-style beer shooter game, vibecoding with AI</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="timeline">
-                <canvas id="particles-timeline" class="particles-canvas"></canvas>
-                <div class="section-content">
-                    <h2>AI Development Timeline</h2>
-                    <div class="timeline-container">
-                        <div class="timeline-line"></div>
-                        <div class="timeline-events">
-                            <!-- Timeline events will be populated by JavaScript -->
-                        </div>
-                    </div>
-                    <div class="timeline-details-area">
-                        <div class="timeline-details-placeholder">Hover over an event to see details</div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="contact">
-                <canvas id="particles-contact" class="particles-canvas"></canvas>
-                <div class="section-content">
-                    <h2>Establish Communication Link</h2>
-                    <div class="contact-container">
-                        <div class="contact-form">
-                            <form id="contact-form">
-                                <div class="form-group">
-                                    <input type="text" id="name" required>
-                                    <label for="name">Name</label>
-                                    <div class="line"></div>
-                                </div>
-                                <div class="form-group">
-                                    <input type="email" id="email" required>
-                                    <label for="email">Email</label>
-                                    <div class="line"></div>
-                                </div>
-                                <div class="form-group">
-                                    <textarea id="message" required></textarea>
-                                    <label for="message">Message</label>
-                                    <div class="line"></div>
-                                </div>
-                                <button type="submit" class="submit-btn">
-                                    <span>Transmit Communication</span>
-                                    <i class="fas fa-paper-plane"></i>
-                                </button>
-                            </form>
-                        </div>
-                        <div class="social-links">
-                        
-                            <div class="social-links-grid">
-                                <a href="https://www.linkedin.com/in/dusan-hajek-16b630171/" class="social-link linkedin" aria-label="LinkedIn">
-                                    <i class="fab fa-linkedin"></i>
-                                    <span>LinkedIn</span>
-                                </a>
-                                <a href="https://github.com/DuskyHajek" class="social-link github" aria-label="GitHub"> 
-                                    <i class="fab fa-github"></i>
-                                    <span>GitHub</span>
-                                </a>
-                                <a href="#" class="social-link twitter" aria-label="Twitter">
-                                    <i class="fab fa-twitter"></i>
-                                    <span>Twitter</span>
-                                </a>
-                                <a href="mailto:your.email@example.com" class="social-link email" aria-label="Email">
-                                    <i class="fas fa-envelope"></i>
-                                    <span>Email</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-        
-        <!-- Scroll Indicator -->
-        <div class="scroll-indicator">
-            <div class="scroll-text">Scroll</div>
-            <div class="scroll-arrow"></div>
-        </div>
+    <div id="canvas-container"></div>
+    <div class="info">
+        <p>Controls: Arrow keys to move, Spacebar to shoot</p>
     </div>
-
-    <div class="project-modal">
-        <div class="modal-content">
-            <div class="modal-close">&times;</div>
-            <div class="modal-body"></div>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+    
+    <!-- Load scripts in the correct order -->
+    <script>
+        console.log("Loading game scripts...");
+    </script>
+    
+    <!-- Load p5.js first -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    
+    <!-- Load Supabase with error handling -->
+    <script>
+        // Try to load Supabase, but continue if it fails
+        try {
+            document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"><\/script>');
+            console.log("Supabase script loaded");
+        } catch (e) {
+            console.warn("Failed to load Supabase, will use local storage:", e);
+        }
+    </script>
+    
+    <!-- Load our game scripts -->
+    <script src="supabase.js"></script>
+    <script src="sketch.js"></script>
+    
+    <script>
+        console.log("All scripts loaded");
+    </script>
 </body>
 </html>

@@ -1,31 +1,36 @@
-# duskyAI Personal Portfolio
+# Beer Space Shooter
 
-## Overview
-This is a personal portfolio website showcasing my projects, skills, and professional journey in AI and technology.
+A fun arcade-style space shooter game with a beer theme! Shoot down various beer enemies while collecting power-ups and trying to achieve the highest score.
 
-## Features
-- Responsive design
-- Animated particle backgrounds
-- Interactive project showcase
-- Contact form
-- Smooth navigation
+## Play the Game
+
+You can play the game online at: [https://DuskyHajek.github.io/beer-space-shooter](https://DuskyHajek.github.io/beer-space-shooter)
+
+## Game Features
+
+- Multiple enemy types with different behaviors and health points
+- Power-ups: Speed Boost, Rapid Fire, Triple Shot, and Spread Shot
+- Combo system for scoring multipliers
+- Progressive difficulty system
+- Leaderboard to track high scores
+- Detailed graphics with animations and particle effects
+
+## Controls
+
+- **Arrow Keys**: Move left and right
+- **Spacebar**: Shoot
+- **R**: Restart game (after game over)
 
 ## Technologies Used
+
 - HTML5
 - CSS3
 - JavaScript
-- Particle.js (for background animations)
+- p5.js for graphics and game mechanics
+- Supabase for leaderboard functionality
 
-## Setup
-1. Clone the repository
-2. Open `index.html` in your browser
+## Credits
 
-## Deployment
-This site is deployed using GitHub Pages. Simply push to the `main` branch to update the live site.
+Created by Dusky Hajek
 
-## Contact
-- LinkedIn: [Dusan Hajek](https://www.linkedin.com/in/dusan-hajek-16b630171/)
-- GitHub: [DuskyHajek](https://github.com/DuskyHajek)
-
-## License
-[Insert your preferred license here, e.g., MIT] 
+Enjoy the game and remember to drink responsibly! 🍺 
